@@ -1,6 +1,4 @@
-package randOp;
 
-import randOp.*;
 import func.nn.backprop.BackPropagationNetwork;
 import func.nn.backprop.BackPropagationNetworkFactory;
 import func.nn.backprop.BatchBackPropagationTrainer;
@@ -148,7 +146,7 @@ public class RandomOp extends Application{
       nets[i] = fffactory.createClassificationNetwork(
           new int[] {inputLayer, hiddenLayer, outputLayer});
       nnops[i] = new NeuralNetworkOptimizationProblem(trnfoldsSet, nets[i], measure);
-      oas[i] = new RandomizedHillClimbing(nnops[i], restarts);
+      oas[i] = new RandomizedHillClimbing(nnops[i]);
 
       FeedForwardNetwork ffNet = nets[i];
 
@@ -933,14 +931,14 @@ public class RandomOp extends Application{
                     String[] st = new String[2];
                     st[0] = "Training Error";
                     st[1] = "Testing Error";
-                    randOp.JGraph jg_rhc = new randOp.JGraph(st, "Random Restarts");
+                    JGraph jg_rhc = new JGraph(st, "Random Restarts");
                     for(int i = 0; i < rhc_trainingErr.size(); i++) {
                         jg_rhc.addToSeries("Training Error", runs.get(i)[7], rhc_trainingErr.get(i));
                         jg_rhc.addToSeries("Testing Error", runs.get(i)[7], rhc_testingErr.get(i));
                     }
                     jg_rhc.createChart(0.0, 25.0);
 
-                    randOp.JGraph jg_sa = new randOp.JGraph(st, "Temperature");
+                    JGraph jg_sa = new JGraph(st, "Temperature");
                     for(int i = 0; i < sa_trainingErr.size()/2; i++) {
                         jg_sa.addToSeries("Training Error", runs.get(i)[2], sa_trainingErr.get(i));
                         jg_sa.addToSeries("Testing Error", runs.get(i)[2], sa_testingErr.get(i));
@@ -948,14 +946,14 @@ public class RandomOp extends Application{
                     System.out.println(sa_trainingErr);
                     jg_sa.createChart(9E10, 1E12);
 
-                    randOp.JGraph jg_sa1 = new randOp.JGraph(st, "Cooling");
+                    JGraph jg_sa1 = new JGraph(st, "Cooling");
                     for(int i = sa_trainingErr.size()/2 - 1; i < sa_trainingErr.size(); i++) {
                         jg_sa1.addToSeries("Training Error", runs.get(i)[3], sa_trainingErr.get(i));
                         jg_sa1.addToSeries("Testing Error", runs.get(i)[3], sa_testingErr.get(i));
                     }
                     jg_sa1.createChart(0.70, 1.0);
 
-                    randOp.JGraph jg_ga = new randOp.JGraph(st, "Crossover");
+                    JGraph jg_ga = new JGraph(st, "Crossover");
                     for(int i = 0; i < ga_trainingErr.size()/2; i++) {
                         jg_ga.addToSeries("Training Error", runs.get(i)[5], ga_trainingErr.get(i));
                         jg_ga.addToSeries("Testing Error", runs.get(i)[5], ga_testingErr.get(i));
@@ -964,7 +962,7 @@ public class RandomOp extends Application{
                     System.out.println(ga_trainingErr);
                     jg_ga.createChart(0.0, 120.0);
 
-                    randOp.JGraph jg_ga1 = new randOp.JGraph(st, "Mutation");
+                    JGraph jg_ga1 = new JGraph(st, "Mutation");
                     for(int i = ga_trainingErr.size()/2 - 1; i < ga_trainingErr.size(); i++) {
                         jg_ga1.addToSeries("Training Error", runs.get(i)[6], ga_trainingErr.get(i));
                         jg_ga1.addToSeries("Testing Error", runs.get(i)[6], ga_testingErr.get(i));

@@ -1,4 +1,3 @@
-package randOp;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -54,9 +53,9 @@ public class JGraph  {
         ValueAxis xAxis = plot.getDomainAxis();
         xAxis.setRange(x_min, x_max);
         ValueAxis yAxis = plot.getRangeAxis();
-        yAxis.setRange(0.40, 0.80);
+        yAxis.setRange(0.0, 1.0);
 
-        File dir = new File("src/opt/test/results/graphs/" + x_axis + "/");
+        File dir = new File("graphs/" + x_axis + "/");
         if (!dir.isDirectory()) {
             dir.mkdir();
         }
