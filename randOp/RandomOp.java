@@ -100,7 +100,7 @@ public class RandomOp extends Application{
   private static final int K = 10;
 
   private static List<Instance[]> folds;
-
+  private static HashMap<String, ArrayList<Double>> points = new HashMap<>();
     private static ArrayList<Double> bp_trainingErr = new ArrayList<>();
     private static ArrayList<Double> bp_testingErr = new ArrayList<>();
 
@@ -925,28 +925,36 @@ public class RandomOp extends Application{
                         populationSize = (int) r[4];
                         toMate = (int) r[5];
                         toMutate = (int) r[6];
+                        points.put("" + temp, new ArrayList<>());
                         run();
                         counter++;
                     }
-                    String[] st = new String[2];
-                    st[0] = "Training Error";
-                    st[1] = "Testing Error";
-                    JGraph jg_rhc = new JGraph(st, "Random Restarts");
+
+                    Set<String> keys = points.keySet();
+                    ArrayList<String> keysList = new ArrayList<String>();
+                    keysList.addAll(keys);
+
+                    String[] st = new String[keysList.size()];
+                    for(int j = 0; j < keysList.size(); j++) {
+                      st[j] = keysList.get(j);
+                    }
+                    /*JGraph jg_rhc = new JGraph(st, "Random Restarts");
                     for(int i = 0; i < rhc_trainingErr.size(); i++) {
                         jg_rhc.addToSeries("Training Error", runs.get(i)[7], rhc_trainingErr.get(i));
                         jg_rhc.addToSeries("Testing Error", runs.get(i)[7], rhc_testingErr.get(i));
                     }
-                    jg_rhc.createChart(0.0, 25.0);
+                    jg_rhc.createChart(0.0, 25.0);*/
 
-                    JGraph jg_sa = new JGraph(st, "Temperature");
-                    for(int i = 0; i < sa_trainingErr.size()/2; i++) {
-                        jg_sa.addToSeries("Training Error", runs.get(i)[2], sa_trainingErr.get(i));
-                        jg_sa.addToSeries("Testing Error", runs.get(i)[2], sa_testingErr.get(i));
+                    JGraph jg_1 = new JGraph(st, "Temperature");
+                    for(int j = 0; j < keysList.size(); j++) {
+                        for (int i = 0; i < points.get(keysList.get(j)).size(); i++) {
+                            System.out.println(points.get(keysList.get(j)));
+                            jg_1.addToSeries(""  + keysList.get(j), runs.get(i)[1], points.get(keysList.get(j)).get(i));
+                        }
+                        jg_1.createChart(0.0, 5000.0);
                     }
-                    System.out.println(sa_trainingErr);
-                    jg_sa.createChart(9E10, 1E12);
 
-                    JGraph jg_sa1 = new JGraph(st, "Cooling");
+                    /*JGraph jg_sa1 = new JGraph(st, "Cooling");
                     for(int i = sa_trainingErr.size()/2 - 1; i < sa_trainingErr.size(); i++) {
                         jg_sa1.addToSeries("Training Error", runs.get(i)[3], sa_trainingErr.get(i));
                         jg_sa1.addToSeries("Testing Error", runs.get(i)[3], sa_testingErr.get(i));
@@ -967,7 +975,7 @@ public class RandomOp extends Application{
                         jg_ga1.addToSeries("Training Error", runs.get(i)[6], ga_trainingErr.get(i));
                         jg_ga1.addToSeries("Testing Error", runs.get(i)[6], ga_testingErr.get(i));
                     }
-                    jg_ga1.createChart(0.0, 30.0);
+                    jg_ga1.createChart(0.0, 30.0);*/
                     
                     writer.close();
                     primaryStage.close();
@@ -1047,17 +1055,18 @@ public class RandomOp extends Application{
         writer.write("Iterations: " + trainingIterations);
         writer.newLine();
 
-        runBackprop();
+        /*runBackprop();
         bp_trainingErr.add(trainError);
-        bp_testingErr.add(testError);
-        runRHC();
-        rhc_trainingErr.add(trainError);
-        rhc_testingErr.add(testError);
+        bp_testingErr.add(testError);*/
+        //runRHC();
+        //points.get("" + temp).add(trainError);
         runSA();
-        sa_trainingErr.add(trainError);
+        System.out.println(trainError);
+        points.get("" + temp).add(trainError);
+        /*sa_trainingErr.add(trainError);
         sa_testingErr.add(testError);
         runGA();
         ga_trainingErr.add(trainError);
-        ga_testingErr.add(testError);
+        ga_testingErr.add(testError);*/
     }
 }

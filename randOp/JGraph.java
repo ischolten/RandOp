@@ -33,6 +33,7 @@ public class JGraph  {
 
     public void addToSeries(String ser, double x, double y) {
         XYSeries s = seriesMap.get(ser);
+        System.out.print(x + " " + y);
         s.add(x ,y);
     }
 
@@ -45,9 +46,6 @@ public class JGraph  {
         createDataSet();
         JFreeChart chart = ChartFactory.createXYLineChart(x_axis + " vs error",
                 x_axis, "error", dataset);
-
-        System.out.print(dataset.getSeries(0).getItems());
-        System.out.print(dataset.getSeries(1).getItems());
 
         XYPlot plot = (XYPlot) chart.getPlot();
         ValueAxis xAxis = plot.getDomainAxis();
